@@ -1,4 +1,3 @@
-const path = require('path')
 const PuntoDeInteres = require('../utils/database').models.punto_interes
 
 
@@ -18,20 +17,17 @@ exports.pais = (req, res)=>{
     })
 }
 
+
 exports.crearPuntoInteres = (req, res)=>{
     PuntoDeInteres.findAll({
         where:{
             lugar_interes:req.body.lugar_interes
-        }
-        
-    }
-    
-    )
+        } 
+    })
     .then(puntos =>{
         if(puntos[0]){
-            const puntosMas = puntos[0].interes + 1
             PuntoDeInteres.update({
-                interes: puntosMas,
+                interes: puntos[0].interes + 1,
             },{
                 where:{
                     lugar_interes:req.body.lugar_interes
@@ -60,7 +56,6 @@ exports.crearPuntoInteres = (req, res)=>{
                 res.json({estado:"ERROR"})
             })
         }
-        
     })
     .catch((err)=>{
         console.log(err)
